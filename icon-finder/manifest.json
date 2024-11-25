@@ -1,0 +1,7 @@
+{
+  "name": "Icon finder",
+  "description": "Search and import icons with ease",
+  "code": "./plugin.js",
+  "icon": "./icon.png",
+  "permissions": ["content:write", "content:read"]
+}
