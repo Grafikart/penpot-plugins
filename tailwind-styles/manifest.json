@@ -1,0 +1,7 @@
+{
+  "name": "Tailwind Styles",
+  "description": "Import and use tailwind styles with ease",
+  "code": "/penpot-plugins/tailwind-styles/plugin.js",
+  "icon": "/penpot-plugins/tailwind-styles/icon.png",
+  "permissions": ["content:write", "content:read", "library:read", "library:write"]
+}
