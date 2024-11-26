@@ -1,0 +1,32 @@
+{
+  "name": "tailwind-html",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "hot": "vite",
+    "dev": "vite build --watch & vite preview",
+    "build": "tsc && vite build --emptyOutDir",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@libs/hooks": "workspace:*",
+    "@libs/styles": "workspace:*",
+    "@libs/ui": "workspace:*",
+    "clsx": "^2.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.4.15",
+    "unocss": "^0.64.1"
+  },
+  "devDependencies": {
+    "@penpot/plugin-types": "^1.0.0",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react": "^4.2.1",
+    "prettier": "^3.3.3",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vitest": "^2.1.6"
+  }
+}
