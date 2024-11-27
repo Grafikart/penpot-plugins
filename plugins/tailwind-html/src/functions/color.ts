@@ -27,10 +27,7 @@ function forceFullColorHex(color: string): string {
   return color;
 }
 
-export function colorToTailwindValue(
-  color: string,
-  opacity: number = 1
-): string {
+export function colorToTailwind(color: string, opacity: number = 1): string {
   const name = colorDict.get(color.toLowerCase()) ?? `[${color.toLowerCase()}]`;
   return opacity < 1 ? `${name}/${opacity * 100}` : name;
 }

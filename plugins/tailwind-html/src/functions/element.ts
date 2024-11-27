@@ -4,11 +4,25 @@ export type Element = {
   children: (Element | string)[];
 };
 
-export function elementToString(element: Element | string): string {
+const tabspace = "&nbsp;&nbsp;";
+
+export function elementToString(element: Element | string, space = ""): string {
   if (typeof element === "string") {
-    return element;
+    return space + element;
   }
-  return `<${element.tag ?? "div"} class="${element.classes.join(" ")}">
-    ${element.children.map(elementToString).join("\n")}
-  </${element.tag ?? "div"}>`;
+  let children = "";
+  if (element.children.length > 0) {
+    children =
+      `<br/>` +
+      [...element.children]
+        .reverse()
+        .map((e) => elementToString(e, space + tabspace))
+        .join("<br/>") +
+      `<br/>${space}`;
+  }
+  return `
+    ${space}
+    <span class="tag">&lt;${element.tag ?? "div"}</span>
+    <span class="attr">class=</span><span class="str">"${element.classes.join(" ")}"</span><span class="tag">&gt;</span>${children}<span class="tag">&lt;/${element.tag ?? "div"}&gt;</span>
+  `;
 }

@@ -1,0 +1,11 @@
+.code .tag {
+    color: #7aa2f7;
+}
+
+.code .attr {
+    color: #496ebf;
+}
+
+.code .str {
+    color: #9dcc65;
+}

@@ -3,9 +3,12 @@
  */
 export function withPrefix(
   prefix: string,
-  value: string,
-  options?: { ignored?: string }
+  value?: string,
+  options?: { ignored?: string },
 ) {
+  if (!value) {
+    return null;
+  }
   if (options?.ignored && value === options.ignored) {
     return null;
   }

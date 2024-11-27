@@ -6,18 +6,15 @@ import { stylePlugin } from "@libs/styles/plugin";
 export default defineConfig({
   plugins: [react(), stylePlugin()],
   base: "/penpot-plugins/tailwind-html/",
-  optimizeDeps: {
-    include: ["tailwindcs/colors"],
-  },
   build: {
+    minify: false,
     outDir: "../../dist/tailwind-html",
     rollupOptions: {
-      external: ["_commonjsHelpers"],
       input: {
         plugin: "src/plugin.ts",
+        // index: "./index.html",
       },
       output: {
-        manualChunks: {},
         entryFileNames: "[name].js",
       },
     },

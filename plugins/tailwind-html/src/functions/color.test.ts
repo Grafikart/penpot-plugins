@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { colorToTailwindValue } from "./color.ts";
+import { colorToTailwind } from "./color.ts";
 
 describe("colorToTailwindValue", () => {
   it.each([
@@ -13,7 +13,7 @@ describe("colorToTailwindValue", () => {
   ])(
     "should return the correct tailwind value for color %s",
     (input, expected) => {
-      expect(colorToTailwindValue(input)).toBe(expected);
-    }
+      expect(colorToTailwind(input)).toBe(expected);
+    },
   );
 });

@@ -12,7 +12,6 @@ export function App() {
       "*",
     );
     const listener = (event: MessageEvent<PluginMessageEvent>) => {
-      console.log({ data: event.data });
       if (event.data.type === "html") {
         setHTML(event.data.content);
       }
@@ -22,11 +21,14 @@ export function App() {
       window.removeEventListener("message", listener);
     };
   }, []);
+
   return (
     <Wrapper>
-      <pre style={{ fontFamily: "monospace" }} className="body-s">
-        {html}
-      </pre>
+      <div
+        style={{ fontFamily: "monospace" }}
+        className="body-xs code"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
     </Wrapper>
   );
 }
