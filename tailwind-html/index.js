@@ -7073,6 +7073,29 @@ function Wrapper({ children }) {
   }, []);
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { "data-theme": theme, children });
 }
+async function copyText(text) {
+  if (!navigator.clipboard) {
+    console.error("Clipboard API not supported");
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (e) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+    } catch (err) {
+      alert(`Fallback: Unable to copy${err}`);
+    }
+    document.body.removeChild(textArea);
+  }
+}
 function App() {
   const [html, setHTML] = reactExports.useState("");
   const [isCopied, setCopied] = reactExports.useState(false);
@@ -7097,13 +7120,7 @@ function App() {
   }, []);
   const copy = () => {
     var _a;
-    window.parent.postMessage(
-      {
-        type: "copy",
-        content: ((_a = code.current) == null ? void 0 : _a.textContent) ?? ""
-      },
-      "*"
-    );
+    copyText((((_a = code.current) == null ? void 0 : _a.innerText) ?? "").replaceAll(" ", " "));
     setCopied(true);
     timer.current = setTimeout(() => {
       setCopied(false);
@@ -7117,7 +7134,7 @@ function App() {
         {
           ref: code,
           style: { fontFamily: "monospace" },
-          className: "body-xs code",
+          className: "py-2 body-xs code",
           dangerouslySetInnerHTML: { __html: html }
         }
       ),

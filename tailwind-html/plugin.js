@@ -4607,7 +4607,7 @@
     cls.push(withPrefix("text-", text.align ?? "left", { ignored: "left" }));
     cls.push(...sizeClasses(text));
     return {
-      tag: text.growType === "auto-width" ? "span" : "div",
+      tag: "div",
       classes: filterStringOnly(cls),
       children: [text.characters]
     };
@@ -4621,11 +4621,18 @@
     if (element.children.length > 0) {
       children = `<br/>` + [...element.children].map((e) => elementToString(e, space + tabspace)).join("<br/>") + `<br/>${space}`;
     }
-    return `
+    const selfClose = element.tag === "img";
+    const html = `
     ${space}
     <span class="tag">&lt;${element.tag ?? "div"}</span>
-    ${attrToString(element.attrs)}<span class="attr">class=</span><span class="str">"${element.classes.join(" ")}"</span><span class="tag">&gt;</span>${children}<span class="tag">&lt;/${element.tag ?? "div"}&gt;</span>
-  `;
+    ${attrToString({
+      ...element.attrs,
+      class: element.classes.join(" ")
+    })}<span class="tag">${selfClose ? "/&gt;" : "&gt;"}</span>`;
+    if (selfClose) {
+      return html;
+    }
+    return `${html}${children}<span class="tag">&lt;/${element.tag ?? "div"}&gt;</span>`;
   }
   function attrToString(attrs) {
     if (!attrs) {
@@ -4633,7 +4640,7 @@
     }
     return ` ${Object.entries(attrs).map(
       ([name, value]) => `<span class="attr">${name}=</span><span class="str">"${value}"</span>`
-    ).join(" ")} `;
+    ).join(" ")}`;
   }
   var blurDict = reverseObjectKeyValue(config.theme.blur);
   function pxToTailwind(v) {
@@ -4852,7 +4859,7 @@
         })
       );
     }
-    if (objectGet(shape, "growType") === "auto-width" || objectGet(shape, "growType") === "auto-height") {
+    if (objectGet(shape, "growType") === "auto-width") {
       return cls;
     }
     let width = `[${Math.round(shape.width)}px]`;
@@ -4873,7 +4880,9 @@
       cls.push(`size-${width}`);
     } else {
       cls.push(`w-${width}`);
-      cls.push(`h-${height}`);
+      if (objectGet(shape, "growType") !== "auto-height") {
+        cls.push(`h-${height}`);
+      }
     }
     return cls;
   }
@@ -5071,7 +5080,6 @@
   }
   function shapeToElement(shape) {
     var _a, _b, _c;
-    console.log("shape", shape.name, shape);
     let element = { tag: "div", children: [], classes: [] };
     if (shape.type === "text") {
       element = textToElement(shape);
@@ -5135,15 +5143,6 @@
   penpot.ui.onMessage((event) => {
     if (event.type === "ready" && penpot.selection.length > 0) {
       sendMessage({ type: "html", content: shapeToHTML(penpot.selection[0]) });
-    }
-    if (event.type === "copy") {
-      if (!navigator.clipboard) {
-        alert("Clipboard API not supported");
-        return;
-      }
-      navigator.clipboard.writeText(event.content).catch((err) => {
-        alert(`Failed to copy: ${err}`);
-      });
     }
   });
   function sendMessage(message) {
