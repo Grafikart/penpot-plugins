@@ -1,0 +1,7 @@
+{
+  "name": "Tailwind HTML",
+  "description": "Generate HTML from selected element",
+  "code": "/penpot-plugins/tailwind-html/plugin.js",
+  "icon": "/penpot-plugins/tailwind-html/icon.png",
+  "permissions": ["content:write", "content:read", "library:read", "library:write"]
+}
