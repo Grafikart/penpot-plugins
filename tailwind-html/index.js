@@ -7077,6 +7077,7 @@ function App() {
   const [html, setHTML] = reactExports.useState("");
   const [isCopied, setCopied] = reactExports.useState(false);
   const timer = reactExports.useRef(null);
+  const code = reactExports.useRef(null);
   reactExports.useEffect(() => {
     window.parent.postMessage(
       {
@@ -7095,18 +7096,18 @@ function App() {
     };
   }, []);
   const copy = () => {
-    if (!navigator.clipboard) {
-      alert("Clipboard API not supported");
-      return;
-    }
-    navigator.clipboard.writeText(html).then(() => {
-      setCopied(true);
-      timer.current = setTimeout(() => {
-        setCopied(false);
-      }, 2e3);
-    }).catch((err) => {
-      alert(`Failed to copy: ${err}`);
-    });
+    var _a;
+    window.parent.postMessage(
+      {
+        type: "copy",
+        content: ((_a = code.current) == null ? void 0 : _a.textContent) ?? ""
+      },
+      "*"
+    );
+    setCopied(true);
+    timer.current = setTimeout(() => {
+      setCopied(false);
+    }, 2e3);
   };
   const isEmpty = !Boolean(html);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(Wrapper, { children: [
@@ -7114,6 +7115,7 @@ function App() {
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "div",
         {
+          ref: code,
           style: { fontFamily: "monospace" },
           className: "body-xs code",
           dangerouslySetInnerHTML: { __html: html }
