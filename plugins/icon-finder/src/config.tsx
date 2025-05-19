@@ -4,6 +4,7 @@ import {
   BoxPreview,
   FeatherPreview,
   HeroPreview,
+  LucidePreview,
   PhosphorPreview,
   RemixPreview,
 } from "./components/Previews.tsx";
@@ -98,5 +99,14 @@ export const packs = [
     },
     site: "https://github.com/atisawd/boxicons/",
     preview: BoxPreview,
+  },
+  {
+    name: "Lucide icons",
+    loader: () =>
+      // @ts-expect-error
+      import("react-icons/lu") as Promise<Record<string, IconComponent>>,
+    license: { name: "ISC", url: "https://lucide.dev/license" },
+    site: "https://lucide.dev/",
+    preview: LucidePreview,
   },
 ] satisfies IconPack[];
